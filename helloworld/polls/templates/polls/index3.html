@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'polls/css/bootstrap.min.css'%}">
+<script type="text/javascript"
+	src="{% static 'polls/js/bootstrap.min.js' %}"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<body>
+	<p>myrecord cloumn data is :{{ myrecord }}</p>
+
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<table class="table table-hover table-condensed table-bordered">
+					<thead>
+						<tr>
+							<th>number</th>
+							<th>product</th>
+							<th>submit time</th>
+							<th>status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>TB - Monthly</td>
+							<td>01/04/2012</td>
+							<td>Default</td>
+						</tr>
+						<tr class="success">
+							<td>1</td>
+							<td>TB - Monthly</td>
+							<td>01/04/2012</td>
+							<td>Approved</td>
+						</tr>
+						<tr class="error">
+							<td>2</td>
+							<td>TB - Monthly</td>
+							<td>02/04/2012</td>
+							<td>Declined</td>
+						</tr>
+						<tr class="warning">
+							<td>3</td>
+							<td>TB - Monthly</td>
+							<td>03/04/2012</td>
+							<td>Pending</td>
+						</tr>
+						<tr class="info">
+							<td>4</td>
+							<td>TB - Monthly</td>
+							<td>04/04/2012</td>
+							<td>Call in to confirm</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-6 column">
+				<button class="btn btn-primary btn-default" type="button">button</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

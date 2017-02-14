@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'polls/css/bootstrap.min.css'%}">
+<script type="text/javascript"
+	src="{% static 'polls/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+   function maketable(){//
+	   var cols=8;
+	   var outStr="<table class=\"table table-condensed table-bordered\">";
+	   outStr+="<tbody>";
+	   for(var i=0;i<cols;i++)){//ksgh
+	   		outStr+="<tr>";
+	   			for(var j=0;j<cols;j++){
+	   				outStr+="<td>";
+	   				outStr+="<button class=\"btn btn-primary btn-default\" type=\"button\">";
+	   				outStr+= "4";//Math.ceil(Math.random()*10);
+	   				outStr+="</button>";
+	   				outStr+="</td>";
+	   			}
+	   		outStr+="</tr>";
+		   
+	   }
+	   outStr+="</tbody>";
+	   outStr+="</table>";
+	   //document.getElementById("d1").appendChild(table);
+	   
+	   
+	    var table=document.createElement("table");  
+	    table.setAttribute("border","1");  
+	    table.setAttribute("background","red");    
+	    var line=8;  
+	    var list=8;  
+	    for(var i=0;i<=line;i++){  
+	        //alert(line); 
+	        var tr=document.createElement("tr");  
+	        for(var j=0;j<=list;j++){  
+	            //alert(list);  
+	            var td=document.createElement("td");  
+	            tr.appendChild(td);  
+	            }  
+	            table.appendChild(tr);  
+	        }  
+	    document.getElementById("d1").appendChild(table);  
+	        
+	   //document.getElementById("d1").innerHTML="change!";
+   }
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<body>
+	<p>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div id="d1">
+					<p>this is changable table</p>
+				</div>
+			</div>
+			<div class="col-md-6 column">
+				<button class="btn btn-primary btn-default" type="button"
+					onclick="maketable()">button</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'polls/css/bootstrap.min.css'%}">
+<script type="text/javascript"
+	src="{% static 'polls/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+	function t() {
+		var cont = document.getElementById('container');
+		var htmlcode = "<p>this is good!</p>";
+		cont.innerHTML = htmlcode;
+	}
+</script>
+
+<script type="text/javascript">
+	function maketable(cols) {//
+		//var cols=8;
+		var outStr = "<table class=\"table table-condensed table-bordered\">";
+		outStr += "<tbody>";
+		//outStr+="<p>outstring change success!</p>";
+
+		for (var i = 0; i < cols; i++) {
+			outStr += "<tr>";
+			for (var j = 0; j < cols; j++) {
+				outStr += "<td>";
+				outStr += "<button class=\"btn btn-primary btn-default\" type=\"button\">";
+				outStr += Math.ceil(Math.random() * 5);
+				outStr += "</button>";
+				outStr += "</td>";
+			}
+
+			outStr += "</tr>";
+		}
+		outStr += "</tbody>";
+		outStr += "</table>";
+		//document.getElementById("d1").appendChild(table);
+
+		/*
+		 var table=document.createElement("table");  
+		 table.setAttribute("border","1");  
+		 table.setAttribute("background","red");    
+		 var line=8;  
+		 var list=8;  
+		 for(var i=0;i<=line;i++){  
+		     //alert(line); 
+		     var tr=document.createElement("tr");  
+		     for(var j=0;j<=list;j++){  
+		         //alert(list);  
+		         var td=document.createElement("td");  
+		         tr.appendChild(td);  
+		         }  
+		         table.appendChild(tr);  
+		     }   */
+		//document.getElementById("d1").appendChild(table); 
+		//document.getElementById('container').innerHTML="<p>change success!</p>";
+		var cont = document.getElementById('d1');
+		//var htmlcode = "<p>change success!</p>";
+		cont.innerHTML = outStr;
+
+		//document.getElementById("d1").innerHTML="change!";
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#inital").click(function() {
+			$("button").css('color','blue');
+		});
+	});
+	
+</script>
+
+<body>
+	<p>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div id="d1">
+					<p>this is changable table</p>
+				</div>
+			</div>
+			<div class="col-md-6 column">
+				<button class="btn btn-primary btn-default" id="inital" type="button"
+					onclick="maketable(8)">初始化</button>
+			</div>
+		</div>
+	</div>
+</body>

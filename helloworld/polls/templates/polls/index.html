@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'polls/css/bootstrap.min.css'%}">
+<script type="text/javascript"
+	src="{% static 'polls/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+	function t() {
+		var cont = document.getElementById('container');
+		var htmlcode = "<p>this is good!</p>";
+		cont.innerHTML = htmlcode;
+	}
+</script>
+
+<script type="text/javascript">
+	function maketable(cols) {//
+		//var cols=parseInt(column);
+		var outStr = "<table class=\"table-condensed \"  cell-padding=0>";
+		outStr += "<tbody>";
+		//outStr+="<p>outstring change success!</p>";
+
+		var iArray = new Array();
+
+		for (var i = 0; i < cols; i++) {
+			iArray[i] = new Array();
+			//alert(i);
+			//alert(cols);
+			for (var j = 0; j < cols; j++) {
+				iArray[i][j] = "";
+			}
+		}
+
+		for (var i = 0; i < cols; i++) {
+			outStr += "<tr>";
+			
+			for (var j = 0; j < cols; j++) {
+				outStr += "<td >";
+				outStr += "<button style=\"position:relative\"   class=\"btn btn-primary btn-default\" type=\"button\" id=\"xxlbutton\"";
+				outStr += "onmousedown=\"ondown(this)\"";
+				outStr += "myx=" + String(i) + " ";
+				outStr += "myy=" + String(j);
+				outStr += ">";
+				var isnotbethenumber1 = -1;
+				var isnotbethenumber2 = -1;
+
+				if (i >= 2) {
+					if (iArray[i - 1][j] == iArray[i - 2][j]) {
+						isnotbethenumber1 = iArray[i - 1][j];
+					}
+				}
+
+				if (j >= 2) {
+					if (iArray[i][j - 1] == iArray[i][j - 2]) {
+						isnotbethenumber2 = iArray[i][j - 1];
+					}
+				}
+
+				var rnumber = Math.ceil(Math.random() * 5);
+
+				if (isnotbethenumber1 != -1 || isnotbethenumber2 != -1) {
+					//if(isnotbethenumber2!=-1){
+					while (rnumber == isnotbethenumber1
+							|| rnumber == isnotbethenumber2) {
+						//rnumber=Math.ceil(Math.random() * 5);
+						rnumber = rnumber + 1;
+					}
+					//}
+					/*while(rnumber==isnotbethenumber1){
+						//rnumber==Math.ceil(Math.random() * 5);
+						rnumber=rnumber+1;
+					}*/
+
+				}
+				outStr += rnumber;
+				iArray[i][j] = rnumber;
+				outStr += "</button>";
+				outStr += "</td>";
+			}
+			outStr += "</tr>";
+		}
+		outStr += "</tbody>";
+		outStr += "</table>";
+		var cont = document.getElementById('d1');
+		//var htmlcode = "<p>change success!</p>";
+		cont.innerHTML = outStr;
+
+		//document.getElementById("d1").innerHTML="change!";
+	}
+
+	function ondown(obj) {
+		//obj.style.backgroundColor = "Cornsilk";
+		//obj.style.color = 'black';
+		$(obj).css("backgroundColor", "Cornsilk");
+		$(obj).css("color", "black");
+
+		var selected = $(".hadselected");
+		//if there are one item had be selected,there change the position
+		if (selected.length != 0) {
+
+			var first = $(".hadselected");
+			var second = $(obj);
+
+			var firstx = parseInt(first.attr("myx"));
+			var firsty = parseInt(first.attr("myy"));
+			var secondx = parseInt(second.attr("myx"));
+			var secondy = parseInt(second.attr("myy"));
+
+			//(firstx==secondx)&& (Math.abs(firsty-secondy)==1)
+			if ((firstx == secondx) && (Math.abs(firsty - secondy) == 1)) {
+				//alert("x is same and y is 1");
+				//exchange the position  and xy coordinate
+				exchange(first,second);
+				check(firstx,firsty);
+				check(secondx,secondy);
+				
+			} else if ((firsty == secondy) && (Math.abs(firstx - secondx) == 1)) { 
+				//alert("x is -1 and y is same");
+				exchange(first,second);
+				check(firstx,firsty);
+				check(secondx,secondy);
+	
+			} else {
+				//alert("x and y is not name each");
+			}
+
+			var randomcolor = getRandomColor();
+			first.css("backgroundColor", randomcolor);
+			first.css("color", "red");
+
+			//selected.id = "xxlbutton";
+			first.removeClass("hadselected");
+
+			second.css("backgroundColor", randomcolor);
+			second.css("color", "red");
+
+			//if button==5 there remove and animate it 
+			/*
+			if ($(obj).text()=="5"){
+				var myx=parseInt($(obj).attr("myx"));
+				var myy=parseInt($(obj).attr("myy"));
+				//alert(myx);
+				if (myx!=0){
+					$("[myy="+myy+"]").each(
+							//function(animatefromAtoB($(this),$(obj));)
+							function(){
+								if($(this).attr("myx")<myx){
+									animatefromAtoB($(this),$(obj));
+								}
+								}
+							);
+				}else{
+					
+				}
+			}
+			 */
+
+		
+
+			//exchange myx and myy
+
+		} else {
+			$(obj).addClass("hadselected");
+		}
+
+		//$(obj).addClass("hadselected");
+
+		//$("[backgroundColor='Cornsilk']").css('backgroundColor','blue');
+	}
+
+	function check(positionx,positiony){
+		var max=16;//index from 0 to 15
+		if (positionx>=2){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+(positionx-1)+"]"+"[myy="+positiony+"]");
+			var objbeforetwo=$("[myx="+(positionx-2)+"]"+"[myy="+positiony+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objbeforetwo.text())){
+				//obj.text("*");
+				//objbefore.text("*");
+				//objbeforetwo.text("*");
+				obj.remove();
+				objbefore.remove();
+				objbeforetwo.remove();
+			}
+		}
+		
+		if (positionx>=1 && positionx<=max-1){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+(positionx-1)+"]"+"[myy="+positiony+"]");
+			var objafter=$("[myx="+(positionx+1)+"]"+"[myy="+positiony+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objafter.text())){
+				//obj.text("*");
+				//objbefore.text("*");
+				//objbeforetwo.text("*");
+				obj.remove();
+				objbefore.remove();
+				objafter.remove();
+			}
+		}
+		
+		if (positiony>=2){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+positionx+"]"+"[myy="+(positiony-1)+"]");
+			var objbeforetwo=$("[myx="+positionx+"]"+"[myy="+(positiony-2)+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objbeforetwo.text())){
+				obj.remove();
+				objbefore.remove();
+				objbeforetwo.remove();
+			}
+		}
+		
+		if (positiony>=1 && positiony<=max-1){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+positionx+"]"+"[myy="+(positiony-1)+"]");
+			var objafter=$("[myx="+positionx+"]"+"[myy="+(positiony+1)+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objafter.text())){
+				obj.remove();
+				objbefore.remove();
+				objafter.remove();
+			}
+		}
+		
+		if (positionx<=max-2){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+(positionx+1)+"]"+"[myy="+positiony+"]");
+			var objbeforetwo=$("[myx="+(positionx+2)+"]"+"[myy="+positiony+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objbeforetwo.text())){
+				obj.remove();
+				objbefore.remove();
+				objbeforetwo.remove();
+			}
+		}
+		
+		if (positiony<=max-2){
+			var obj=$("[myx="+positionx+"]"+"[myy="+positiony+"]");
+			var objbefore=$("[myx="+(positionx)+"]"+"[myy="+(positiony+1)+"]");
+			var objbeforetwo=$("[myx="+(positionx)+"]"+"[myy="+(positiony+2)+"]");
+			if((obj.text()==objbefore.text()) && (objbefore.text()==objbeforetwo.text())){
+				obj.remove();
+				objbefore.remove();
+				objbeforetwo.remove();
+			}
+		}
+		
+		
+	}
+	
+	
+	//objectA and objectB is also jquery objects 
+	function exchange(objectA,objectB){
+		
+		animatefromAtoB(objectA, objectB);
+		animatefromAtoB(objectB, objectA);
+		
+		var attrmyx = objectA.attr("myx");
+		var attrmyy = objectA.attr("myy");
+		objectA.attr("myx", objectB.attr("myx"));
+		objectA.attr("myy", objectB.attr("myy"));
+		objectB.attr("myx", attrmyx);
+		objectB.attr("myy", attrmyy);
+		
+		
+	}
+	
+	//animate from objectA to ojbectA 
+	//objectA and objectB is also jquery objects 
+	function animatefromAtoB(objectA, objectB) {
+
+		if (objectA.length == 0) {
+			return;
+		}
+		if (objectB.length == 0) {
+			return;
+		}
+
+		var top = objectA.position().top - objectB.position().top;
+		var left = objectA.position().left - objectB.position().left;
+
+		objectA.animate({
+			'left' : '-=' + left + 'px',
+			'top' : '-=' + top + 'px'
+		}, "slow");
+
+	}
+
+	var getRandomColor = function() {
+
+		return '#'
+				+ ('00000' + (Math.random() * 0x1000000 << 0).toString(16))
+						.substr(-6);
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#inital").click(function() {
+			//$("button").css('color','blue');
+			$(this).css('background', 'black');
+			$(this).css('color', 'white');
+
+			$("td").css('padding', '0');
+			$("*").css('margin', '0');
+
+		});
+		/*
+		$("#xxlbutton").click(function(){
+			$("[backgroundColor='Cornsilk']").css('backgroundColor','blue');
+		});
+		 */
+	});
+</script>
+
+<body>
+	<p>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div id="d1">
+					<p>this is changable table</p>
+				</div>
+			</div>
+			<div class="col-md-6 column">
+				<button class="btn btn-primary btn-default" id="inital"
+					type="button" onclick="maketable(16)">inital</button>
+			</div>
+		</div>
+	</div>
+</body>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<link rel="stylesheet" href="{% static 'polls/css/bootstrap.min.css'%}">
+<script type="text/javascript"
+	src="{% static 'polls/js/bootstrap.min.js' %}"></script>
+<script type="text/javascript">
+	function t() {
+		var cont = document.getElementById('container');
+		var htmlcode = "<p>this is good!</p>";
+		cont.innerHTML = htmlcode;
+	}
+</script>
+
+<script type="text/javascript">
+	function maketable(cols) {//
+		//var cols=8;
+		var outStr = "<table class=\"table table-condensed table-bordered\">";
+		outStr += "<tbody>";
+		//outStr+="<p>outstring change success!</p>";
+
+		for (var i = 0; i < cols; i++) {
+			outStr += "<tr>";
+			for (var j = 0; j < cols; j++) {
+				outStr += "<td align=center>";
+				outStr += "<button style=\"position:relative\"   class=\"btn btn-primary btn-default\" type=\"button\" id=\"xxlbutton\""
+				outStr += "onmousedown=\"ondown(this)\""
+				outStr += ">";
+				outStr += Math.ceil(Math.random() * 5);
+				outStr += "</button>";
+				outStr += "</td>";
+			}
+
+			outStr += "</tr>";
+		}
+		outStr += "</tbody>";
+		outStr += "</table>";
+		var cont = document.getElementById('d1');
+		//var htmlcode = "<p>change success!</p>";
+		cont.innerHTML = outStr;
+
+		//document.getElementById("d1").innerHTML="change!";
+	}
+
+	function ondown(obj) {
+		//obj.style.backgroundColor = "Cornsilk";
+		//obj.style.color = 'black';
+		$(obj).css("backgroundColor","Cornsilk");
+		$(obj).css("color","black");
+
+		var selected = $(".hadselected");
+		if (selected) {
+			var randomcolor = getRandomColor();
+			//selected.style.backgroundColor = randomcolor;
+			//selected.style.color = "red";
+			selected.css("backgroundColor",randomcolor);
+			selected.css("color","red");
+			//$("#hadselected").hide();//
+			var first = $(".hadselected");
+			var second = $(obj);
+			var top1 = first.position().top - second.position().top;
+			var left1 = first.position().left - second.position().left;
+			/*var top2 = (first.offset().top) - (second.offset().top);
+			var left2 = (first.offset().left) - (second.offset().left);
+			var top3 = top1;
+			var left3 = top1;
+			first.parents().each(function() {
+				top3 = top3 + $(this).position().top;
+				left3 = left3 + $(this).position().left;
+			});
+			second.parents().each(function() {
+				top3 = top3 - $(this).position().top;
+				left3 = left3 - $(this).position().left;
+			});
+			*/
+
+			/* var top3=top1;
+			var left3=left1;
+			var current=first;
+			while(current.parent()) {
+				 current=current.parent();
+				 top3+=current.position().top;
+				 left3+=current.position().left;
+				 //alert(top3);
+			}
+			var currentnext=second;
+			while(currentnext.parent()){
+				currentnext=currentnext.parent();
+				top3-=currentnext.position().top;
+				left3-=currentnext.position().left;
+			} */
+
+			$(".hadselected").animate({
+				'left' : '-='+left1+'px',
+				'top' : '-='+top1+'px'
+			}, "slow", function() {
+				//alert($(this).position().top);
+				//$(this).css("position","relative");
+				//$(this).css("top",first.position().top-top1);
+				//$(this).css("left",first.position().left-left1);
+			});
+			//alert(firstpos.top);
+			//alert(firstpos.left);
+			//$("#hadselected").css({'left':secondpos.left,'top':secondpos.top});
+			//$("#hadselected").attr("left")-=left1;
+			//$("#hadselected").attr("")
+			$(obj).animate({
+				left : '+='+left1+'px',
+				top : '+='+top1+'px'
+			}, "slow", function() {
+				//alert($(this).position().top);
+				//$(this).css("position","relative");
+				//$(this).css("top",second.position().top-top1);
+				//$(this).css("left",second.position().left-left1);
+			});
+			//$(obj).css({'left':firstpos.left,'top':firstpos.top});
+			//selected.id = "xxlbutton";
+			selected.toggleClass("hadselected");
+			obj.style.backgroundColor = randomcolor;
+			obj.style.color = "red";
+
+		} else {
+			$(obj).toggleClass("hadselected");
+		}
+		//$("[backgroundColor='Cornsilk']").css('backgroundColor','blue');
+	}
+
+	var getRandomColor = function() {
+
+		return '#'
+				+ ('00000' + (Math.random() * 0x1000000 << 0).toString(16))
+						.substr(-6);
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#inital").click(function() {
+			//$("button").css('color','blue');
+			$(this).css('background', 'black');
+			$(this).css('color', 'white');
+
+		});
+		/*
+		$("#xxlbutton").click(function(){
+			$("[backgroundColor='Cornsilk']").css('backgroundColor','blue');
+		});
+		 */
+	});
+</script>
+
+<body>
+	<p>
+	<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-6 column">
+				<div id="d1">
+					<p>this is changable table</p>
+				</div>
+			</div>
+			<div class="col-md-6 column">
+				<button class="btn btn-primary btn-default" id="inital"
+					type="button" onclick="maketable(8)">inital</button>
+			</div>
+		</div>
+	</div>
+</body>
